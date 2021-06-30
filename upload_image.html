@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <title>Test Image</title>
+</head>
+<body>
+
+    <h1>Input Image: </h1>
+
+    <img  src="{{ url_for('send_uploaded_file', filename=uploaded_image) }}">
+    <br>
+    <table>
+        {% if containlen > 0 %}
+        <h3>Contains:</h3>
+            {%for contain in contained%}
+                <tr><td><h3>{{contain}}</h3></td></tr>
+            {%endfor%}
+        {% endif %}
+        {% if notcontainlen > 0 %}
+        <tr><td><h3>Does not contain:</h3></td></tr>
+            {%for ncontain in notcontained%}
+                <tr><td><h3>{{ncontain}}</h3></td></tr>
+            {%endfor%}
+        {% endif %}
+    </table>
+    <!--
+    <table>
+        {%for label in labels%}
+        <tr>
+            <th>{{label.description}}</th>
+        </tr>
+        {%endfor%}
+        {%for object in objects%}
+        <tr>
+            <td>{{object.name}}</td>
+        </tr>
+        {%endfor%}
+        {%for text in texts%}
+        <tr>
+            <td>{{text.description}}</td>
+        </tr>
+        {%endfor%}
+
+    </table>
+    -->
+</body>
