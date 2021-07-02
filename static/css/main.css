@@ -1,0 +1,72 @@
+.bar {
+	font-size: 50px;
+	color: #651e75;
+}
+body {
+	font-family: Garamond, serif;
+	text-align: center;
+	background-image: url('background2.jpg');
+}
+
+button {
+	background-color: orange;
+	border: none;
+	color: black;
+	padding: 13px 62px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-weight: 700;
+	font-size: 18px;
+	cursor: pointer;
+}
+input {
+	font-size: 6.5px;
+}
+.labelclass {
+	font-size: 40px;
+}
+.custom-file-input::-webkit-file-upload-button {
+	visibility: hidden;
+}
+.custom-file-input::before {
+	content: 'Select Image';
+	display: inline-block;
+	background: #b825d9;
+	/*border: 1px solid #999;
+  border-radius: 3px;*/
+	padding: 10px 15px;
+	outline: none;
+	white-space: nowrap;
+	cursor: pointer;
+	font-weight: 700;
+	font-size: 15px;
+}
+.custom-file-input:hover::before {
+	border-color: black;
+}
+.custom-file-input:active::before {
+	background: #b825d9;
+}
+table {
+	margin-left: auto;
+	margin-right: auto;
+}
+td {
+	background-color: white;
+}
+h3 {
+	font-size: 25px;
+	color: #651e75;
+}
+h1 {
+	color: #651e75;
+}
+.header {
+	background-color: white;
+}
+.logo {
+	position: block;
+	margin-left: auto;
+	margin-right: auto;
+}

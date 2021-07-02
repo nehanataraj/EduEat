@@ -6,7 +6,7 @@ from google.cloud import vision
 app = Flask(__name__)
 
 
-app.config["IMAGE_UPLOADS"] = "C:/Users/ravik/PycharmProjects/flaskimageproject/"
+app.config["IMAGE_UPLOADS"] = "/Users/veerrohitv/Desktop/atlashacks/backend"
 
 
 @app.route("/")
@@ -25,6 +25,8 @@ def upload_image():
             protein = False
             veggies = False
             fruits = False
+            junk = False
+            stars = 0
 
             contained = []
             notcontained = []
@@ -34,6 +36,7 @@ def upload_image():
             veggiefoods = ['Produce', 'Leaf vegetable', 'Vegetable', 'Root vegetable', 'Artichoke', 'Broccoli', 'Carrot', 'Carrots', 'Bean', 'Beans', 'Salad']
             fruitfoods = ['Fruit', 'Fruits', 'Apple', 'Apples', 'Orange', 'Produce', 'Salad']
             dairyfoods = ['Milk', 'milk', 'Lowfat milk', 'Yogurt', 'Butter', 'Ice cream', 'Cheese']
+            junkfoods = ['French fries', 'Junk food', 'Fried food']
 
             im = request.files["image"]
             # print(image + "Uploaded to Faces")
@@ -74,6 +77,8 @@ def upload_image():
                     dairy = True
                 if label.description in fruitfoods:
                     fruits = True
+                if label.description in junkfoods:
+                    junk = True
             for text in texts:
                 if text.description in grainfoods:
                     grains = True
@@ -85,6 +90,8 @@ def upload_image():
                     dairy = True
                 if text.description in fruitfoods:
                     fruits = True
+                if text.description in junkfoods:
+                    junk = True
             for object in objects:
                 if object.name in grainfoods:
                     grains = True
@@ -96,31 +103,43 @@ def upload_image():
                     dairy = True
                 if object.name in fruitfoods:
                     fruits = True
+                if object.name in junkfoods:
+                    junk = True
 
             if fruits is True:
                 contained.append('Fruits')
+                stars += 1
             else:
                 notcontained.append('Fruits')
             if grains is True:
                 contained.append('Grains')
+                stars += 1.5
             else:
                 notcontained.append('Grains')
             if protein is True:
                 contained.append('Protein')
+                stars += 1
             else:
                 notcontained.append('Protein')
             if veggies is True:
                 contained.append('Vegetables')
+                stars += 1
             else:
                 notcontained.append('Vegetables')
             if dairy is True:
                 contained.append('Dairy')
+                stars += .5
             else:
                 notcontained.append('Dairy')
+            if junk is True:
+                stars -= 1.5
+                contained.append('Junk Food')
+            else:
+                notcontained.append('Junk Food')
+            if stars < 0:
+                stars = 0
 
-            print(contained, notcontained)
-
-            return render_template("upload_image.html", uploaded_image=im.filename, labels=labels, objects=objects, texts=texts, contained=contained, notcontained=notcontained, containlen=len(contained), notcontainlen=len(notcontained))
+            return render_template("upload_image.html", uploaded_image=im.filename, labels=labels, objects=objects, texts=texts, contained=contained, notcontained=notcontained, containlen=len(contained), notcontainlen=len(notcontained), stars=stars)
 
 
 @app.route('/uploads/<filename>')

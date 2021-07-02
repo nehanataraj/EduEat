@@ -13,8 +13,8 @@
     <img  src="{{ url_for('send_uploaded_file', filename=uploaded_image) }}">
     <br>
     <table>
-        {% if containlen > 0 %}
-        <h3>Contains:</h3>
+        {% if containlen > 0%}
+        <tr><td><h3>Contains:</h3></td></tr>
             {%for contain in contained%}
                 <tr><td><h3>{{contain}}</h3></td></tr>
             {%endfor%}
@@ -25,7 +25,9 @@
                 <tr><td><h3>{{ncontain}}</h3></td></tr>
             {%endfor%}
         {% endif %}
+
     </table>
+    <h1>Rating: {{stars}} stars</h1>
     <!--
     <table>
         {%for label in labels%}
@@ -47,3 +49,4 @@
     </table>
     -->
 </body>
+</html>
