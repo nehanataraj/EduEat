@@ -125,7 +125,7 @@ def upload_image():
                 notcontained.append('Fruits')
             if grains is True:
                 contained.append('Grains')
-                stars += 1.5
+                stars += 0.5
             else:
                 notcontained.append('Grains')
             if protein is True:
@@ -150,6 +150,8 @@ def upload_image():
                 notcontained.append('Junk Food')
             if stars < 0:
                 stars = 0
+            elif(stars > 5):
+              stars = 5
             return jsonify(contained, notcontained, stars)
 
 
