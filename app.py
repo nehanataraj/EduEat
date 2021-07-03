@@ -1,12 +1,21 @@
 import os
 
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, jsonify
 from google.cloud import vision
+from flask_cors import CORS
+import redis
+import json
+r = redis.Redis(host='localhost', port=6379, db=0)
 
 app = Flask(__name__)
+CORS(app)
+cors = CORS(app, resource={
+    r"/*":{
+        "origins":"*"
+    }
+})
 
-
-app.config["IMAGE_UPLOADS"] = "/Users/veerrohitv/Desktop/atlashacks/backend"
+app.config["IMAGE_UPLOADS"] = os.getcwd()
 
 
 @app.route("/")
@@ -26,7 +35,7 @@ def upload_image():
             veggies = False
             fruits = False
             junk = False
-            stars = 0
+            stars = 2
 
             contained = []
             notcontained = []
@@ -48,7 +57,6 @@ def upload_image():
 
             # The name of the image file to annotate
             file_name = os.path.abspath(im.filename)
-
             # Loads the image into memory
             with open(file_name, 'rb') as image_file:
                 content = image_file.read()
@@ -69,41 +77,41 @@ def upload_image():
             for label in labels:
                 if label.description in grainfoods:
                     grains = True
-                if label.description in proteinfoods:
+                elif label.description in proteinfoods:
                     protein = True
-                if label.description in veggiefoods:
+                elif label.description in veggiefoods:
                     veggies = True
-                if label.description in dairyfoods:
+                elif label.description in dairyfoods:
                     dairy = True
-                if label.description in fruitfoods:
+                elif label.description in fruitfoods:
                     fruits = True
-                if label.description in junkfoods:
+                elif label.description in junkfoods:
                     junk = True
             for text in texts:
                 if text.description in grainfoods:
                     grains = True
-                if text.description in proteinfoods:
+                elif text.description in proteinfoods:
                     protein = True
-                if text.description in veggiefoods:
+                elif text.description in veggiefoods:
                     veggies = True
-                if text.description in dairyfoods:
+                elif text.description in dairyfoods:
                     dairy = True
-                if text.description in fruitfoods:
+                elif text.description in fruitfoods:
                     fruits = True
-                if text.description in junkfoods:
+                elif text.description in junkfoods:
                     junk = True
             for object in objects:
                 if object.name in grainfoods:
                     grains = True
-                if object.name in proteinfoods:
+                elif object.name in proteinfoods:
                     protein = True
-                if object.name in veggiefoods:
+                elif object.name in veggiefoods:
                     veggies = True
-                if object.name in dairyfoods:
+                elif object.name in dairyfoods:
                     dairy = True
-                if object.name in fruitfoods:
+                elif object.name in fruitfoods:
                     fruits = True
-                if object.name in junkfoods:
+                elif object.name in junkfoods:
                     junk = True
 
             if fruits is True:
@@ -138,8 +146,7 @@ def upload_image():
                 notcontained.append('Junk Food')
             if stars < 0:
                 stars = 0
-
-            return render_template("upload_image.html", uploaded_image=im.filename, labels=labels, objects=objects, texts=texts, contained=contained, notcontained=notcontained, containlen=len(contained), notcontainlen=len(notcontained), stars=stars)
+            return jsonify(contained, notcontained, stars)
 
 
 @app.route('/uploads/<filename>')
@@ -149,4 +156,4 @@ def send_uploaded_file(filename=''):
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host='0.0.0.0')
