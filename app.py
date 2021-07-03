@@ -43,12 +43,12 @@ def upload_image():
             contained = []
             notcontained = []
 
-            grainfoods = ['Noodle', 'Pasta', 'Al dente', 'Sliced bread', 'Whole wheat bread', 'White bread', 'Bread', 'Bun', 'Hamburger', 'Stringozzi']
-            proteinfoods = ['Hamburger', 'Meat', 'Patty', 'Seed', 'Nut', 'Cashew family', 'Ventricina']
+            grainfoods = ['Noodle', 'Pasta', 'Al dente', 'Sliced bread', 'Whole wheat bread', 'White bread', 'Bread', 'Bun', 'Hamburger', 'Stringozzi', 'Rice']
+            proteinfoods = ['Meat', 'Patty', 'Seed', 'Nut', 'Cashew family', 'Ventricina']
             veggiefoods = ['Produce', 'Leaf vegetable', 'Vegetable', 'Root vegetable', 'Artichoke', 'Broccoli', 'Carrot', 'Carrots', 'Bean', 'Beans', 'Salad']
-            fruitfoods = ['Fruit', 'Fruits', 'Apple', 'Apples', 'Orange', 'Produce', 'Salad']
-            dairyfoods = ['Milk', 'milk', 'Lowfat milk', 'Yogurt', 'Butter', 'Ice cream', 'Cheese']
-            junkfoods = ['French fries', 'Junk food', 'Fried food']
+            fruitfoods = ['Fruit', 'Fruits', 'Apple', 'Apples', 'Orange', 'Produce', 'Salad', 'rasberry', 'strawberry', 'blackberry', 'blueberry']
+            dairyfoods = ['Milk', 'milk', 'Lowfat milk', 'Yogurt', 'Butter', 'Ice cream', 'Cheese', 'Paneer']
+            junkfoods = ['French fries', 'Junk food', 'Fried food', 'Hamburger', ]
 
             im = request.files["image"]
             # print(image + "Uploaded to Faces")
