@@ -15,7 +15,10 @@ cors = CORS(app, resource={
     }
 })
 
+
+
 app.config["IMAGE_UPLOADS"] = os.getcwd()
+
 
 
 @app.route("/")
@@ -57,6 +60,7 @@ def upload_image():
 
             # The name of the image file to annotate
             file_name = os.path.abspath(im.filename)
+            print(file_name)
             # Loads the image into memory
             with open(file_name, 'rb') as image_file:
                 content = image_file.read()
