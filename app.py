@@ -18,6 +18,8 @@ cors = CORS(app, resource={
 
 
 app.config["IMAGE_UPLOADS"] = os.getcwd()
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+
 
 
 
