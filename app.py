@@ -167,9 +167,6 @@ def upload_image():
                 stars = 0
             elif(stars > 5):
               stars = 5
-            image = Images(file_name=file_name, stars=stars)
-            db.session.add(image)
-            db.session.commit()
             return jsonify(contained, notcontained, stars)
 
 
@@ -186,6 +183,15 @@ def all():
     items = [item.as_dict() for item in items]
     return jsonify(items)
 
+@app.route('/store', methods=['POST'])
+def store():
+    data = request.get_json()
+    uri = data["uri"]
+    stars = data["stars"]
+    image = Images(file_name=uri, stars=stars)
+    db.session.add(image)
+    db.session.commit()
+    return("Successfully added image")
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0')
