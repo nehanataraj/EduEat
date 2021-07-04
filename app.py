@@ -26,7 +26,7 @@ db = SQLAlchemy(app)
 class Images(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     file_name = db.Column(db.String(255), unique=False, nullable=True)
-    stars = db.Column(db.Integer, unique=False, nullable=True)
+    stars = db.Column(db.Float, unique=False, nullable=True)
 
     def __repr__(self):
         return '%s: %s, %s' % (self.id, self.file_name, self.stars)
