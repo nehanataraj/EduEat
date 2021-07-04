@@ -4,6 +4,7 @@ from flask import Flask, request, render_template, jsonify
 from google.cloud import vision
 from flask_cors import CORS
 import redis
+from sqlalchemy_serializer import SerializerMixin
 from flask_sqlalchemy import SQLAlchemy
 import json
 r = redis.Redis(host='localhost', port=6379, db=0)
@@ -20,7 +21,18 @@ cors = CORS(app, resource={
 
 app.config["IMAGE_UPLOADS"] = os.getcwd()
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+db = SQLAlchemy(app)
 
+class Images(db.Model, SerializerMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    file_name = db.Column(db.String(255), unique=False, nullable=True)
+    stars = db.Column(db.Integer, unique=False, nullable=True)
+
+    def __repr__(self):
+        return '%s: %s, %s' % (self.id, self.file_name, self.stars)
+    
+    def as_dict(self):
+        return {'id': self.id, 'file_name': self.file_name, 'stars': self.stars}
 
 
 
@@ -155,6 +167,9 @@ def upload_image():
                 stars = 0
             elif(stars > 5):
               stars = 5
+            image = Images(file_name=file_name, stars=stars)
+            db.session.add(image)
+            db.session.commit()
             return jsonify(contained, notcontained, stars)
 
 
@@ -162,6 +177,14 @@ def upload_image():
 def send_uploaded_file(filename=''):
     from flask import send_from_directory
     return send_from_directory(app.config["IMAGE_UPLOADS"], filename)
+
+
+
+@app.route('/all', methods=['GET'])
+def all():
+    items = Images.query.all()
+    items = [item.as_dict() for item in items]
+    return jsonify(items)
 
 
 if __name__ == "__main__":
