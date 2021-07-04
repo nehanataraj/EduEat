@@ -4,6 +4,7 @@ from flask import Flask, request, render_template, jsonify
 from google.cloud import vision
 from flask_cors import CORS
 import redis
+from flask_sqlalchemy import SQLAlchemy
 import json
 r = redis.Redis(host='localhost', port=6379, db=0)
 
